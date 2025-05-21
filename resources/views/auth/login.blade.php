@@ -7,17 +7,17 @@
 @endsection
 
 @section('content')
-<div class="login-container">
+    <div class="login-container">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-7 col-sm-9">
                     <div class="login-card">
                         <div class="login-header">
                             <div class="app-icon">
-                                <i class="fas fa-horse fa-3x mb-3 animated-icon"></i>
+                                <i class="fas fa-shopping-cart fa-3x mb-1 animated-icon"></i>
                             </div>
-                            <p class="mb-3">Login</p>
-
+                            <h4 class="mb-1">Welcome Back</h4>
+                            <p class="mb-0 subtitle">Sign in to continue shopping</p>
                         </div>
                         <div class="login-body">
                             <form action="{{ route('loginProses') }}" method="post" autocomplete="off">
@@ -30,9 +30,9 @@
 
                                 <div class="input-group">
                                     <div class="position-relative w-100">
-                                        <i class="fas fa-user input-icon"></i>
+                                        <i class="fas fa-envelope input-icon"></i>
                                         <input class="form-control icon-input @error('email') is-invalid @enderror"
-                                            type="email" name="email" placeholder="Masukkan email anda"
+                                            type="email" name="email" placeholder="Email Address"
                                             value="{{ old('email') }}">
                                     </div>
                                     @error('email')
@@ -46,7 +46,10 @@
                                     <div class="position-relative w-100">
                                         <i class="fas fa-lock input-icon @error('password') is-invalid @enderror"></i>
                                         <input class="form-control icon-input" type="password" name="password"
-                                            placeholder="Masukkan Password">
+                                            id="password" placeholder="Password">
+                                        <span class="password-toggle" onclick="togglePassword()">
+                                            <i class="fas fa-eye" id="toggleIcon"></i>
+                                        </span>
                                     </div>
                                     @error('password')
                                         <div class="text-danger mt-2">
@@ -55,24 +58,26 @@
                                     @enderror
                                 </div>
 
+                                <div class="remember-me">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                        <label class="form-check-label" for="remember">Remember me</label>
+                                    </div>
+                                    <a href="javascript:void(0)" class="forgot-link">Forgot Password?</a>
+                                </div>
+
                                 <div class="d-grid gap-2 mt-4">
                                     <button type="submit" class="btn btn-lg login-btn">
-                                        <i class="fas fa-sign-in-alt me-2"></i>Masuk
+                                        Sign In
                                     </button>
                                 </div>
 
-                                <div class="action-links">
-                                    <a href="javascript:void(0)" class="mx-1">
-                                        <i class="fas fa-question-circle me-1 "></i>Lupa Password?
-                                    </a>
-                                    <a href="{{ route('register') }}">
-                                        <i class="fas fa-user-plus me-1"></i>Daftar Baru
-                                    </a>
+                                <div class="register-prompt text-center mt-4">
+                                    <p>Don't have an account? <a href="{{ route('register') }}">Create Account</a></p>
                                 </div>
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -80,5 +85,20 @@
 @endsection
 
 @section('js')
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
 
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 @endsection

@@ -3,58 +3,52 @@
 @section('title', 'Beranda')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('frontend/css/beranda.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/beranda.css') }}">
 @endsection
 
 @section('content')
     <!-- Hero Section with Carousel -->
     <section class="hero-section">
-        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#heroCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#heroCarousel" data-slide-to="1"></li>
-                <li data-target="#heroCarousel" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active"
-                    style="background-image: url('{{ asset('assets/image/frontend/carousel-1-1.jpg') }}')">
-                    <div class="carousel-overlay"></div>
-                    <div class="carousel-caption">
-                        <h2>Makanan Sehat & Lezat</h2>
-                        <p>Nikmati berbagai pilihan makanan dan minuman berkualitas tinggi dengan bahan-bahan segar
-                            pilihan untuk memenuhi kebutuhan gizi harian Anda.</p>
-                        <a href="#" class="btn btn-hero">Pesan Sekarang</a>
-                    </div>
-                </div>
-                <div class="carousel-item"
-                    style="background-image: url('{{ asset('assets/image/frontend/carousel-1.jpg') }}')">
-                    <div class="carousel-overlay"></div>
-                    <div class="carousel-caption">
-                        <h2>Minuman Menyegarkan</h2>
-                        <p>Dari jus buah segar hingga kopi premium, semua minuman kami dibuat dengan bahan berkualitas
-                            untuk menyegarkan hari Anda.</p>
-                        <a href="#" class="btn btn-hero">Lihat Menu</a>
-                    </div>
-                </div>
-                <div class="carousel-item"
-                    style="background-image: url('{{ asset('assets/image/frontend/carousel-3.jpg') }}')">
-                    <div class="carousel-overlay"></div>
-                    <div class="carousel-caption">
-                        <h2>Hidangan Penutup Istimewa</h2>
-                        <p>Manjakan diri Anda dengan berbagai pilihan dessert lezat yang dibuat dengan cinta oleh chef
-                            berpengalaman kami.</p>
-                        <a href="#" class="btn btn-hero">Coba Sekarang</a>
-                    </div>
+        <div class="owl-carousel hero-carousel">
+            <div class="carousel-slide"
+                style="background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        url('{{ asset('assets/image/frontend/carousel-1-1.jpg') }}') center/cover no-repeat;">
+                <div class="carousel-overlay"></div>
+                <div class="carousel-caption">
+                    <h2>Makanan Sehat & Lezat</h2>
+                    <p>Nikmati berbagai pilihan makanan dan minuman berkualitas tinggi dengan bahan-bahan segar pilihan
+                        untuk memenuhi kebutuhan gizi harian Anda.</p>
+                    <a href="#" class="btn btn-hero">Pesan Sekarang</a>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </a>
+            <div class="carousel-slide"
+                style="background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        url('{{ asset('assets/image/frontend/carousel-1.jpg') }}') center/cover no-repeat;">
+                <div class="carousel-overlay"></div>
+                <div class="carousel-caption">
+                    <h2>Minuman Menyegarkan</h2>
+                    <p>Dari jus buah segar hingga kopi premium, semua minuman kami dibuat dengan bahan berkualitas untuk
+                        menyegarkan hari Anda.</p>
+                    <a href="#" class="btn btn-hero">Lihat Menu</a>
+                </div>
+            </div>
+            <div class="carousel-slide"
+                style="background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        url('{{ asset('assets/image/frontend/carousel-2.jpg') }}') center/cover no-repeat;">
+                <div class="carousel-overlay"></div>
+                <div class="carousel-caption">
+                    <h2>Hidangan Penutup Istimewa</h2>
+                    <p>Manjakan diri Anda dengan berbagai pilihan dessert lezat yang dibuat dengan cinta oleh chef
+                        berpengalaman kami.</p>
+                    <a href="#" class="btn btn-hero">Coba Sekarang</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-nav-container">
+            <button class="custom-prev-btn"><i class="fas fa-arrow-left"></i></button>
+            <button class="custom-next-btn"><i class="fas fa-arrow-right"></i></button>
         </div>
     </section>
 
@@ -113,8 +107,8 @@
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://source.unsplash.com/400x300/?healthy-food" alt="Healthy Bowl">
-                            <span class="product-category">Makanan Sehat</span>
+                            <img src="{{ asset('assets/image/frontend/product-1.jpg') }}" alt="Healthy Bowl">
+                            <span class="product-category">Makanan </span>
                         </div>
                         <div class="product-details">
                             <h5 class="product-title">Super Healthy Bowl</h5>
@@ -136,11 +130,36 @@
                     </div>
                 </div>
 
-                <!-- Duplicate product cards for display (in reality, you would loop through your products) -->
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://source.unsplash.com/400x300/?smoothie" alt="Smoothie">
+                            <img src="{{ asset('assets/image/frontend/product-1.jpg') }}" alt="Healthy Bowl">
+                            <span class="product-category">Makanan </span>
+                        </div>
+                        <div class="product-details">
+                            <h5 class="product-title">Super Healthy Bowl</h5>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="product-price">
+                                <span class="current-price">Rp45.000</span>
+                                <span class="old-price">Rp60.000</span>
+                            </div>
+                            <button class="btn btn-cart">
+                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="{{ asset('assets/image/frontend/product-2.jpg') }}" alt="Smoothie">
                             <span class="product-category">Minuman</span>
                         </div>
                         <div class="product-details">
@@ -166,8 +185,8 @@
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://source.unsplash.com/400x300/?salad" alt="Salad">
-                            <span class="product-category">Makanan Sehat</span>
+                            <img src="{{ asset('assets/image/frontend/product-4.jpg') }}" alt="Salad">
+                            <span class="product-category">Makanan </span>
                         </div>
                         <div class="product-details">
                             <h5 class="product-title">Fresh Garden Salad</h5>
@@ -192,7 +211,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://source.unsplash.com/400x300/?coffee" alt="Coffee">
+                            <img src="{{ asset('assets/image/frontend/product-3.jpg') }}" alt="Coffee">
                             <span class="product-category">Minuman</span>
                         </div>
                         <div class="product-details">
@@ -214,6 +233,105 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="{{ asset('assets/image/frontend/product-1.jpg') }}" alt="Healthy Bowl">
+                            <span class="product-category">Makanan </span>
+                        </div>
+                        <div class="product-details">
+                            <h5 class="product-title">Super Healthy Bowl</h5>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="product-price">
+                                <span class="current-price">Rp45.000</span>
+                                <span class="old-price">Rp60.000</span>
+                            </div>
+                            <button class="btn btn-cart">
+                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="{{ asset('assets/image/frontend/product-2.jpg') }}" alt="Smoothie">
+                            <span class="product-category">Minuman</span>
+                        </div>
+                        <div class="product-details">
+                            <h5 class="product-title">Berry Blast Smoothie</h5>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="product-price">
+                                <span class="current-price">Rp30.000</span>
+                                <span class="old-price">Rp38.000</span>
+                            </div>
+                            <button class="btn btn-cart">
+                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="{{ asset('assets/image/frontend/product-4.jpg') }}" alt="Salad">
+                            <span class="product-category">Makanan </span>
+                        </div>
+                        <div class="product-details">
+                            <h5 class="product-title">Fresh Garden Salad</h5>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="product-price">
+                                <span class="current-price">Rp35.000</span>
+                                <span class="old-price">Rp42.000</span>
+                            </div>
+                            <button class="btn btn-cart">
+                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {{-- call to action --}}
+    <section class="cta-section" style="background-image: url('{{ asset('assets/image/frontend/cta.jpg') }}')">
+        <div class="cta-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="cta-content">
+                        <h2>Nikmati Pengalaman Kuliner Terbaik</h2>
+                        <p>Dapatkan diskon 15% untuk pemesanan pertama Anda melalui aplikasi kami. Unduh sekarang dan
+                            rasakan kenikmatan hidangan berkualitas premium dengan harga terjangkau!</p>
+                        <div class="cta-buttons">
+                            <a href="#" class="btn btn-primary cta-btn-main">Pesan Sekarang</a>
+                            <a href="#" class="btn btn-outline cta-btn-secondary">Pelajari Menu</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -221,4 +339,32 @@
 @endsection
 
 @section('js')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var heroCarousel = $(".hero-carousel");
+
+            heroCarousel.owlCarousel({
+                items: 1,
+                loop: true,
+                nav: false,
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true,
+                smartSpeed: 1000,
+                animateOut: 'fadeOut'
+            });
+
+            // Custom Navigation
+            $(".custom-next-btn").click(function() {
+                heroCarousel.trigger('next.owl.carousel');
+            });
+
+            $(".custom-prev-btn").click(function() {
+                heroCarousel.trigger('prev.owl.carousel');
+            });
+        });
+    </script>
 @endsection

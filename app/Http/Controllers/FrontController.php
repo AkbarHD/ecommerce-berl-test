@@ -10,4 +10,14 @@ class FrontController extends Controller
     {
         return view('frontend.beranda');
     }
+
+    public function product()
+    {
+        return view('frontend.product');
+    }
+
+    public function keranjang()
+    {
+        return view('frontend.keranjang');
+    }
 }

@@ -10,7 +10,7 @@
 <div class="dashboard-container py-4">
         <div class="welcome-section">
             {{-- <h2 class="text-success">{{ __('Halo, selamat datang') }} <span class="user-name">{{ Auth::user()->nameclub }}</span>!</h2> --}}
-            <h2 class="text-success">{{ __('Halo, selamat datang') }} <span class="user-name">Akbar Hossam Delmiro</span>!</h2>
+            <h2 class="text-success">{{ __('Halo, selamat datang') }} <span class="user-name">{{ Auth::user()->name }}</span>!</h2>
             <p>
                 {{__('Senang bertemu kembali. Anda kini berada di dashboard sistem manajemen. Berikut ringkasan aktivitas Anda hari ini.')}}
             </p>

@@ -5,6 +5,7 @@
     <title>@yield('title') | Shop</title>
     @include('frontend.partials.head')
     @yield('css')
+
 </head>
 
 <body>
@@ -20,6 +21,7 @@
 
     {{-- script --}}
    @include('frontend.partials.script')
+
 
    @yield('js')
 
