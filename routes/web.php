@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 /*
@@ -20,3 +24,13 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', 'FrontController@index')->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout',  'LoginController@logout')->name('logout');
+    Route::get('/admin/homeadmin',  'HomeController@homeadmin')->name('homeadmin');
+});
+
+Route::get('/login', 'LoginController@login')->name('login');
+Route::post('/login',  'LoginController@loginProses')->name('loginProses');
+Route::get('/register',  'LoginController@register')->name('register');
+Route::post('/register', 'LoginController@registerProses')->name('registerProses');
