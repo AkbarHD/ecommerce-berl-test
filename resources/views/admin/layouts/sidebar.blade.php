@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item {{ request()->routeIs('setting_harga.index') ? 'active' : '' }}">
-                    <a href="{{ route('product.index') }}" class="sidebar-link">
+                    <a href="{{ route('setting_harga.index') }}" class="sidebar-link">
                         <i class="fas fa-upload"></i>
                         <span class="align-middle">Setting Harga</span>
                     </a>

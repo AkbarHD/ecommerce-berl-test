@@ -2,6 +2,7 @@
 .owl-carousel .carousel-item {
     display: block !important;
 }
+
 .hero-section {
     overflow: hidden;
     position: relative;
@@ -222,13 +223,12 @@
 
 /* Product Section Styles */
 .product-section {
-    padding: 60px 0;
-    background-color: #f8f9fa;
+    padding: 20px 0 60px 0;
 }
 
 .section-title {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     position: relative;
 }
 
@@ -331,28 +331,44 @@
     text-decoration: line-through;
 }
 
-.btn-cart {
-    width: 100%;
+.product-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-detail {
+    flex: 1;
+    border-radius: 30px;
+    padding: 8px 15px;
+    font-weight: 500;
+    font-size: 12px;
+    border: 1px solid #ff6b6b;
+    background-color: white;
+    color: #ff6b6b;
+    transition: all 0.3s ease;
+}
+
+.btn-detail:hover {
     background-color: #ff6b6b;
     color: white;
-    border-radius: 30px;
-    padding: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    border: none;
+}
+
+.btn-cart {
+    flex: 0 0 50px;
+    height: 50px;
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.btn-cart i {
-    margin-right: 8px;
+    transition: all 0.3s ease;
+    border: none;
 }
 
 .btn-cart:hover {
     background-color: #ff5252;
-    color: white;
+    transform: scale(1.1);
 }
 
 /* call to action */

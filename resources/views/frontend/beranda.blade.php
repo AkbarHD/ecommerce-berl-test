@@ -99,219 +99,47 @@
     <section class="product-section">
         <div class="container">
             <div class="section-title">
-                <h2>Produk Unggulan</h2>
+                <h2>Produk Kami</h2>
             </div>
 
             <div class="row">
-                <!-- Sample Product Card -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/image/frontend/product-1.jpg') }}" alt="Healthy Bowl">
-                            <span class="product-category">Makanan </span>
-                        </div>
-                        <div class="product-details">
-                            <h5 class="product-title">Super Healthy Bowl</h5>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                @forelse ($products as $product)
+                    <!-- Sample Product Card -->
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="{{ asset($product->gambar) }}" alt="Healthy Bowl">
+                                <span class="product-category">{{ $product->name }}</span>
                             </div>
-                            <div class="product-price">
-                                <span class="current-price">Rp45.000</span>
-                                <span class="old-price">Rp60.000</span>
+                            <div class="product-details">
+                                <h5 class="product-title">{{ $product->nama_product }}</h5>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price">{{ $product->harga }}</span>
+                                    <span class="old-price">Rp60.000</span>
+                                </div>
+                                <div class="product-buttons">
+                                    <a href="{{ route('products.detail', $product->id) }}" class="btn btn-detail">Detail</a>
+                                    <button class="btn btn-cart">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button class="btn btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/image/frontend/product-1.jpg') }}" alt="Healthy Bowl">
-                            <span class="product-category">Makanan </span>
-                        </div>
-                        <div class="product-details">
-                            <h5 class="product-title">Super Healthy Bowl</h5>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="product-price">
-                                <span class="current-price">Rp45.000</span>
-                                <span class="old-price">Rp60.000</span>
-                            </div>
-                            <button class="btn btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                            </button>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <p>Tidak ada produk yang tersedia.</p>
+                @endforelse
+            </div>
 
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/image/frontend/product-2.jpg') }}" alt="Smoothie">
-                            <span class="product-category">Minuman</span>
-                        </div>
-                        <div class="product-details">
-                            <h5 class="product-title">Berry Blast Smoothie</h5>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="product-price">
-                                <span class="current-price">Rp30.000</span>
-                                <span class="old-price">Rp38.000</span>
-                            </div>
-                            <button class="btn btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/image/frontend/product-4.jpg') }}" alt="Salad">
-                            <span class="product-category">Makanan </span>
-                        </div>
-                        <div class="product-details">
-                            <h5 class="product-title">Fresh Garden Salad</h5>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="product-price">
-                                <span class="current-price">Rp35.000</span>
-                                <span class="old-price">Rp42.000</span>
-                            </div>
-                            <button class="btn btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/image/frontend/product-3.jpg') }}" alt="Coffee">
-                            <span class="product-category">Minuman</span>
-                        </div>
-                        <div class="product-details">
-                            <h5 class="product-title">Premium Arabica Coffee</h5>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="product-price">
-                                <span class="current-price">Rp25.000</span>
-                                <span class="old-price">Rp32.000</span>
-                            </div>
-                            <button class="btn btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/image/frontend/product-1.jpg') }}" alt="Healthy Bowl">
-                            <span class="product-category">Makanan </span>
-                        </div>
-                        <div class="product-details">
-                            <h5 class="product-title">Super Healthy Bowl</h5>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="product-price">
-                                <span class="current-price">Rp45.000</span>
-                                <span class="old-price">Rp60.000</span>
-                            </div>
-                            <button class="btn btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/image/frontend/product-2.jpg') }}" alt="Smoothie">
-                            <span class="product-category">Minuman</span>
-                        </div>
-                        <div class="product-details">
-                            <h5 class="product-title">Berry Blast Smoothie</h5>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="product-price">
-                                <span class="current-price">Rp30.000</span>
-                                <span class="old-price">Rp38.000</span>
-                            </div>
-                            <button class="btn btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="{{ asset('assets/image/frontend/product-4.jpg') }}" alt="Salad">
-                            <span class="product-category">Makanan </span>
-                        </div>
-                        <div class="product-details">
-                            <h5 class="product-title">Fresh Garden Salad</h5>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="product-price">
-                                <span class="current-price">Rp35.000</span>
-                                <span class="old-price">Rp42.000</span>
-                            </div>
-                            <button class="btn btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="d-flex justify-content-center">
+                <a href="{{ route('products') }}" class="btn btn-hero">Lihat Semua Produk</a>
             </div>
         </div>
     </section>

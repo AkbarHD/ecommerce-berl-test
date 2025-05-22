@@ -175,7 +175,4 @@ class ProductController extends Controller
             return redirect()->back()->withErrors(['error' => 'Gagal hapus produk.']);
         }
     }
-
-
-
 }

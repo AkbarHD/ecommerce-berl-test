@@ -1,0 +1,60 @@
+/* Simple Product Detail Styling */
+.product-detail-image img {
+    max-height: 500px;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.product-info {
+    padding-left: 30px;
+}
+
+.product-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.stars {
+    display: inline-block;
+}
+
+.product-price h3 {
+    font-weight: 700;
+}
+
+.product-description {
+    line-height: 1.6;
+}
+
+.product-actions .btn {
+    padding: 12px 25px;
+}
+
+.product-meta {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.product-meta p {
+    margin-bottom: 8px;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .product-info {
+        padding-left: 0;
+        margin-top: 30px;
+    }
+
+    .product-title {
+        font-size: 1.5rem;
+    }
+
+    .product-actions .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

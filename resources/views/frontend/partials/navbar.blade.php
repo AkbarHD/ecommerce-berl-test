@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="cart-icon-wrapper">
-                        <a href="#" class="cart-icon position-relative mr-3">
+                        <a href="{{ route('keranjang') }}" class="cart-icon position-relative mr-3">
                             <i class="fas fa-shopping-cart fa-lg"></i>
                             <span class="cart-badge position-absolute badge rounded-pill bg-danger">3</span>
                         </a>

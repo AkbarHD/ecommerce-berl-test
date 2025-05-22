@@ -256,7 +256,7 @@
             <h1>Produk Kami</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Produk</li>
                 </ol>
             </nav>
@@ -270,65 +270,36 @@
             <div class="col-lg-3">
                 <div class="filter-section">
                     <!-- Search Box -->
-                    <div class="search-box">
-                        <input type="text" class="form-control" placeholder="Cari produk...">
-                        <button type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                    <form method="GET" action="{{ route('products') }}">
+                        <div class="search-box">
+                            <input type="text" name="search" class="form-control" placeholder="Cari produk..."
+                                value="{{ request('search') }}">
+                            <button type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
 
-                    <!-- Category Filter -->
-                    <div class="category-filter">
-                        <h4>Kategori Produk</h4>
-                        <div class="filter-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="makanan">
-                                <label class="form-check-label" for="makanan">
-                                    Makanan
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="minuman">
-                                <label class="form-check-label" for="minuman">
-                                    Minuman
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="snack">
-                                <label class="form-check-label" for="snack">
-                                    Snack
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="desert">
-                                <label class="form-check-label" for="desert">
-                                    Desert
-                                </label>
+                        <!-- Category Filter -->
+                        <div class="category-filter">
+                            <h4>Kategori Produk</h4>
+                            <div class="filter-group">
+                                @foreach ($categories as $category)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="category[]"
+                                            value="{{ $category->name }}"
+                                            {{ is_array(request('category')) && in_array($category->name, request('category')) ? 'checked' : '' }}
+                                            id="category-{{ $category->id }}">
+                                        <label class="form-check-label" for="category-{{ $category->id }}">
+                                            {{ $category->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
 
-                        <h4>Harga</h4>
-                        <div class="filter-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priceRange" id="price1">
-                                <label class="form-check-label" for="price1">
-                                    Rp0 - Rp50.000
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priceRange" id="price2">
-                                <label class="form-check-label" for="price2">
-                                    Rp50.000 - Rp100.000
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priceRange" id="price3">
-                                <label class="form-check-label" for="price3">
-                                    Rp100.000+
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                        <button class="btn btn-warning mt-3" type="submit">Filter</button>
+                       <a href="{{ route('products') }}" class="btn btn-danger mt-3">Refresh</a>
+                    </form>
                 </div>
             </div>
 
@@ -336,202 +307,48 @@
             <div class="col-lg-9">
                 <section class="product-section">
                     <div class="row">
-                        <!-- Product 1 -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product-card">
-                                <div class="product-image">
-                                    <img src="{{ asset('assets/image/frontend/product-1.jpg') }}" alt="Healthy Bowl">
-                                    <span class="product-category">Makanan</span>
-                                </div>
-                                <div class="product-details">
-                                    <h5 class="product-title">Super Healthy Bowl</h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
+                        @forelse ($products as $product)
+                            <!-- Sample Product Card -->
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product-card">
+                                    <div class="product-image">
+                                        <img src="{{ asset($product->gambar) }}" alt="Healthy Bowl">
+                                        <span class="product-category">{{ $product->name }}</span>
                                     </div>
-                                    <div class="product-price">
-                                        <span class="current-price">Rp45.000</span>
-                                        <span class="old-price">Rp60.000</span>
-                                    </div>
-                                    <div class="product-buttons">
-                                        <button class="btn btn-detail">Detail</button>
-                                        <button class="btn btn-cart">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </button>
+                                    <div class="product-details">
+                                        <h5 class="product-title">{{ $product->nama_product }}</h5>
+                                        <div class="product-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="product-price">
+                                            <span class="current-price">{{ $product->harga }}</span>
+                                            <span class="old-price">Rp60.000</span>
+                                        </div>
+                                        <div class="product-buttons">
+                                            <a href="{{ route('products.detail', $product->id) }}" class="btn btn-detail">Detail</a>
+                                            <button class="btn btn-cart">
+                                                <i class="fas fa-shopping-cart"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @empty
+                            <p>Tidak ada produk yang tersedia.</p>
+                        @endforelse
 
-                        <!-- Product 2 -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product-card">
-                                <div class="product-image">
-                                    <img src="{{ asset('assets/image/frontend/product-2.jpg') }}" alt="Coffee">
-                                    <span class="product-category">Minuman</span>
-                                </div>
-                                <div class="product-details">
-                                    <h5 class="product-title">Premium Coffee</h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <div class="product-price">
-                                        <span class="current-price">Rp30.000</span>
-                                    </div>
-                                    <div class="product-buttons">
-                                        <button class="btn btn-detail">Detail</button>
-                                        <button class="btn btn-cart">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 3 -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product-card">
-                                <div class="product-image">
-                                    <img src="{{ asset('assets/image/frontend/product-3.jpg') }}" alt="Fruit Salad">
-                                    <span class="product-category">Desert</span>
-                                </div>
-                                <div class="product-details">
-                                    <h5 class="product-title">Fresh Fruit Salad</h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <div class="product-price">
-                                        <span class="current-price">Rp25.000</span>
-                                        <span class="old-price">Rp35.000</span>
-                                    </div>
-                                    <div class="product-buttons">
-                                        <button class="btn btn-detail">Detail</button>
-                                        <button class="btn btn-cart">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 4 -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product-card">
-                                <div class="product-image">
-                                    <img src="{{ asset('assets/image/frontend/product-4.jpg') }}" alt="Pasta">
-                                    <span class="product-category">Makanan</span>
-                                </div>
-                                <div class="product-details">
-                                    <h5 class="product-title">Italian Pasta</h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <div class="product-price">
-                                        <span class="current-price">Rp55.000</span>
-                                    </div>
-                                    <div class="product-buttons">
-                                        <button class="btn btn-detail">Detail</button>
-                                        <button class="btn btn-cart">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 5 -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product-card">
-                                <div class="product-image">
-                                    <img src="{{ asset('assets/image/frontend/product-5.jpg') }}" alt="Smoothie">
-                                    <span class="product-category">Minuman</span>
-                                </div>
-                                <div class="product-details">
-                                    <h5 class="product-title">Berry Smoothie</h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <div class="product-price">
-                                        <span class="current-price">Rp28.000</span>
-                                        <span class="old-price">Rp32.000</span>
-                                    </div>
-                                    <div class="product-buttons">
-                                        <button class="btn btn-detail">Detail</button>
-                                        <button class="btn btn-cart">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 6 -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product-card">
-                                <div class="product-image">
-                                    <img src="{{ asset('assets/image/frontend/product-6.jpg') }}" alt="Chocolate Cake">
-                                    <span class="product-category">Desert</span>
-                                </div>
-                                <div class="product-details">
-                                    <h5 class="product-title">Chocolate Cake</h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <div class="product-price">
-                                        <span class="current-price">Rp35.000</span>
-                                    </div>
-                                    <div class="product-buttons">
-                                        <button class="btn btn-detail">Detail</button>
-                                        <button class="btn btn-cart">
-                                            <i class="fas fa-shopping-cart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Pagination -->
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                    <i class="fas fa-chevron-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div class="mt-4">
+                       {{ $products->links('pagination::bootstrap-4') }}
+
+                    </div>
+
                 </section>
             </div>
         </div>

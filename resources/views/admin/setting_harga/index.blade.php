@@ -10,7 +10,7 @@
         <div class="card shadow">
             <div class="card-header d-flex justify-content-between">
                 <h4>Setting Harga</h4>
-                <a href="javascript:void(0);" class="btn btn-primary" id="btnTambahProduct"> <i class="fa-solid fa-plus"></i>
+                <a href="javascript:void(0);" class="btn btn-primary" id="btnTambahSetting"> <i class="fa-solid fa-plus"></i>
                     Tambah Harga</a>
             </div>
             <div class="card-body">
@@ -27,11 +27,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $key => $product)
+                            @foreach ($setting_harga as $key => $harga)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $product->nama_product ?? '-' }}</td>
-                                    <td>{{ $product->name ?? '-' }}</td>
+                                    <td>{{ $harga->nama_product ?? '-' }}</td>
+                                    <td>{{ $harga->harga ?? '-' }}</td>
+                                    <td>{{ $harga->periode_awal ?? '-' }}</td>
+                                    <td>{{ $harga->periode_akhir ?? '-' }}</td>
                                     <td>
 
                                         <div class="btn-group">
@@ -40,19 +42,19 @@
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <li>
-                                                    <a class="dropdown-item edit" data-id="{{ $product->id }}"
+                                                    <a class="dropdown-item edit" data-id="{{ $harga->id }}"
                                                         href="javascript:void(0);">
                                                         <i class="mdi mdi-pencil me-2"></i>
                                                         Edit
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <form action="{{ route('product.destroy', $product->id) }}"
-                                                        method="POST" class="delete-form">
+                                                    <form action="{{ route('setting_harga.destroy', $harga->id) }}" method="POST"
+                                                        class="delete-form">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button" class="dropdown-item text-danger btn-delete"
-                                                            data-name="{{ $product->nama_product }}">
+                                                            data-name="{{ $harga->nama_product }}">
                                                             <i class="mdi mdi-delete me-2"></i> Delete
                                                         </button>
                                                     </form>
@@ -72,57 +74,56 @@
     </div>
 
     {{-- Modal Create --}}
-    <div class="modal fade" id="createProduct" tabindex="-1">
+    <div class="modal fade" id="createSetting" tabindex="-1">
         <div class="modal-dialog">
-            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data" id="frmProduct">
+            <form action="{{ route('setting_harga.store') }}" method="POST" id="frmSetting">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5>Tambah Product</h5>
+                        <h5>Tambah Setting Harga</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Nama Product</label>
-                            <input type="text" name="nama_product" id="nama_product" placeholder="nama product"
-                                class="form-control @error('nama_product') is-invalid @enderror"
-                                value="{{ old('nama_product') }}">
-                            @error('nama_product')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Category</label>
-                            <select name="category_id" id="category_id" class="form-control">
-                                <option value="" hidden>Pilih Category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <label class="form-label">Product</label>
+                            <select name="product_id" id="product_id" class="form-control">
+                                <option value="" hidden>Pilih Product</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}">{{ $product->nama_product }}</option>
                                 @endforeach
                             </select>
-                            @error('category_id')
+                            @error('product_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Gambar</label>
-                            <input type="file" name="gambar" id="gambar" placeholder="gambar"
-                                class="form-control @error('gambar') is-invalid @enderror" value="{{ old('gambar') }}">
-                            @error('gambar')
+                            <label class="form-label">Harga</label>
+                            <input type="number" name="harga" id="harga" placeholder="harga"
+                                class="form-control @error('harga') is-invalid @enderror" value="{{ old('harga') }}">
+                            @error('harga')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Keterangan</label>
-                            <textarea name="keterangan" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"></textarea>
-
-                            @error('keterangan')
+                            <label class="form-label">Periode awal</label>
+                            <input type="text" name="periode_awal" class="form-control datepicker" id="periode_awal"
+                                placeholder="dd-mm-yyyy" value="{{ old('periode_awal') }}" autocomplete="off">
+                            @error('periode_awal')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Periode akhir</label>
+                            <input type="text" name="periode_akhir" class="form-control datepicker" id="periode_akhir"
+                                placeholder="dd-mm-yyyy" value="{{ old('periode_akhir') }}" autocomplete="off">
+                            @error('periode_akhir')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -138,14 +139,14 @@
     </div>
 
     {{-- modal edit --}}
-    <div class="modal modal-blur fade" id="modal-editProduct" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal modal-blur fade" id="modal-editSetting" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="loadedEditProductForm">
+                <div class="modal-body" id="loadedEditSettingForm">
                     {{-- isi form akan dimuat lewat AJAX --}}
                 </div>
             </div>
@@ -155,71 +156,53 @@
 
 @section('js')
     <script>
-        let editorKeterangan; // simpan instance CKEditor
-
-        ClassicEditor
-            .create(document.querySelector('#keterangan'), {
-                toolbar: [
-                    'heading', '|',
-                    'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', '|',
-                    'blockQuote', 'insertTable', 'undo', 'redo'
-                ],
-            })
-            .then(editor => {
-                editorKeterangan = editor; // simpan ke variabel
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
         $(document).ready(function() {
 
-            $('#btnTambahProduct').on('click', function() {
-                $('#frmProduct')[0].reset();
+            $('.datepicker').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayHighlight: true,
+            });
 
-                // Reset konten CKEditor tanpa membuat ulang
-                if (editorKeterangan) {
-                    editorKeterangan.setData('');
-                }
-
-                $('#createProduct').modal('show');
+            $('#btnTambahSetting').on('click', function() {
+                $('#createSetting').modal('show');
             });
 
 
-            $('#frmProduct').on('submit', function() {
-                var nama_product = $('#nama_product').val();
-                var category_id = $('#category_id').val();
-                var gambar = $('#gambar').val();
-                var keterangan = $('#keterangan').val();
-                if (nama_product == "") {
-                    $('#nama_product').focus();
+            $('#frmSetting').on('submit', function() {
+                var product_id = $('#product_id').val();
+                var harga = $('#harga').val();
+                var periode_awal = $('#periode_awal').val();
+                var periode_akhir = $('#periode_akhir').val();
+                if (product_id == "") {
+                    $('#product_id').focus();
                     Swal.fire({
                         title: 'Oops!',
-                        text: 'Nama Product Tidak Boleh Kosong',
+                        text: 'Product Tidak Boleh Kosong',
                         icon: 'warning',
                     });
                     return false;
-                } else if (category_id == "") {
-                    $('#category_id').focus();
+                } else if (harga == "") {
+                    $('#harga').focus();
                     Swal.fire({
                         title: 'Oops!',
-                        text: 'Category Tidak Boleh Kosong',
+                        text: 'Harga Tidak Boleh Kosong',
                         icon: 'warning',
                     });
                     return false;
-                } else if (gambar == "") {
-                    $('#gambar').focus();
+                } else if (periode_awal == "") {
+                    $('#periode_awal').focus();
                     Swal.fire({
                         title: 'Oops!',
-                        text: 'Gambar Tidak Boleh Kosong',
+                        text: 'periode awal Tidak Boleh Kosong',
                         icon: 'warning',
                     });
                     return false;
-                } else if (keterangan == "") {
-                    $('#keterangan').focus();
+                } else if (periode_akhir == "") {
+                    $('#periode_akhir').focus();
                     Swal.fire({
                         title: 'Oops!',
-                        text: 'Keterangan Tidak Boleh Kosong',
+                        text: 'periode akhir Tidak Boleh Kosong',
                         icon: 'warning',
                     });
                     return false;
@@ -231,14 +214,14 @@
                 var id = $(this).attr('data-id');
                 $.ajax({
                     type: 'GET',
-                    url: '{{ route('product.edit') }}',
+                    url: '{{ route('setting_harga.edit') }}',
                     data: {
                         _token: "{{ csrf_token() }}",
                         id: id
                     },
                     success: function(response) {
-                        $('#loadedEditProductForm').html(response);
-                        $('#modal-editProduct').modal('show');
+                        $('#loadedEditSettingForm').html(response);
+                        $('#modal-editSetting').modal('show');
 
                         initDatepicker();
                     },
@@ -269,5 +252,17 @@
                 });
             });
         });
+
+        function initDatepicker() {
+            $('input[name="periode_awal"], input[name="periode_akhir"]').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                todayHighlight: true,
+                orientation: "bottom auto",
+                startView: 2,
+                maxViewMode: 2,
+                clearBtn: true
+            });
+        }
     </script>
 @endsection

@@ -13,7 +13,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('product') }}">Produk</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('products') }}">Produk</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
                 </ol>
             </nav>
@@ -134,7 +134,7 @@
                         </table>
                     </div>
 
-                    <a href="{{ route('product') }}" class="continue-shopping">
+                    <a href="{{ route('products') }}" class="continue-shopping">
                         <i class="fas fa-arrow-left"></i> Lanjutkan Belanja
                     </a>
                 </div>
