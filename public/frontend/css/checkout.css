@@ -1,0 +1,256 @@
+ .page-header {
+     background-color: #f8f9fa;
+     padding: 50px 0;
+     margin-bottom: 30px;
+ }
+
+ .page-header h1 {
+     font-weight: 700;
+     margin-bottom: 15px;
+ }
+
+ .breadcrumb-item a {
+     color: #ff6b6b;
+     text-decoration: none;
+ }
+
+ /* Checkout Section */
+ .checkout-section {
+     padding: 20px 0 60px 0;
+ }
+
+ .checkout-title {
+     position: relative;
+     margin-bottom: 30px;
+     padding-bottom: 15px;
+     border-bottom: 1px solid #e9ecef;
+ }
+
+ .checkout-title h2 {
+     font-weight: 700;
+     color: #343a40;
+ }
+
+ /* Form Card */
+ .form-card {
+     background-color: white;
+     border-radius: 15px;
+     overflow: hidden;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+     margin-bottom: 30px;
+     padding: 25px;
+ }
+
+ .form-card h4 {
+     font-weight: 700;
+     color: #343a40;
+     margin-bottom: 20px;
+     padding-bottom: 15px;
+     border-bottom: 1px solid #e9ecef;
+ }
+
+ .form-label {
+     font-weight: 600;
+     color: #495057;
+     margin-bottom: 8px;
+ }
+
+ .form-control {
+     border-radius: 10px;
+     border: 1px solid #ced4da;
+     padding: 12px 15px;
+     margin-bottom: 20px;
+     transition: all 0.3s ease;
+ }
+
+ .form-control:focus {
+     border-color: #ff6b6b;
+     box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+ }
+
+ .form-select {
+     border-radius: 10px;
+     border: 1px solid #ced4da;
+     padding: 12px 15px;
+     margin-bottom: 20px;
+     transition: all 0.3s ease;
+ }
+
+ .form-select:focus {
+     border-color: #ff6b6b;
+     box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+ }
+
+ /* Shipping Options */
+ .shipping-options {
+     display: flex;
+     flex-direction: column;
+     gap: 15px;
+ }
+
+ .shipping-option {
+     border: 2px solid #e9ecef;
+     border-radius: 10px;
+     padding: 15px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     position: relative;
+ }
+
+ .shipping-option:hover {
+     border-color: #ff6b6b;
+ }
+
+ .shipping-option.selected {
+     border-color: #ff6b6b;
+     background-color: rgba(255, 107, 107, 0.05);
+ }
+
+ .shipping-option input[type="radio"] {
+     position: absolute;
+     opacity: 0;
+ }
+
+ .shipping-info {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+ .courier-name {
+     font-weight: 600;
+     color: #343a40;
+ }
+
+ .courier-desc {
+     font-size: 14px;
+     color: #6c757d;
+     margin-top: 5px;
+ }
+
+ .shipping-price {
+     font-weight: 700;
+     color: #ff6b6b;
+     font-size: 16px;
+ }
+
+ /* Order Summary */
+ .order-summary {
+     background-color: white;
+     border-radius: 15px;
+     overflow: hidden;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+     padding: 25px;
+     position: sticky;
+     top: 20px;
+ }
+
+ .summary-title {
+     font-weight: 700;
+     font-size: 20px;
+     margin-bottom: 20px;
+     padding-bottom: 15px;
+     border-bottom: 1px solid #e9ecef;
+ }
+
+ .order-item {
+     display: flex;
+     align-items: center;
+     margin-bottom: 15px;
+     padding-bottom: 15px;
+     border-bottom: 1px solid #f8f9fa;
+ }
+
+ .order-item:last-child {
+     border-bottom: none;
+     margin-bottom: 20px;
+ }
+
+ .item-image {
+     width: 60px;
+     height: 60px;
+     border-radius: 8px;
+     overflow: hidden;
+     margin-right: 15px;
+ }
+
+ .item-image img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+ }
+
+ .item-details {
+     flex: 1;
+ }
+
+ .item-name {
+     font-weight: 600;
+     font-size: 14px;
+     margin-bottom: 5px;
+ }
+
+ .item-qty {
+     font-size: 12px;
+     color: #6c757d;
+ }
+
+ .item-price {
+     font-weight: 600;
+     color: #343a40;
+ }
+
+ .summary-item {
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 15px;
+ }
+
+ .summary-label {
+     color: #6c757d;
+ }
+
+ .summary-value {
+     font-weight: 600;
+ }
+
+ .grand-total {
+     font-size: 22px;
+     font-weight: 700;
+     color: #ff6b6b;
+ }
+
+ .btn-place-order {
+     width: 100%;
+     background-color: #ff6b6b;
+     color: white;
+     border-radius: 30px;
+     padding: 15px;
+     font-weight: 600;
+     text-transform: uppercase;
+     transition: all 0.3s ease;
+     border: none;
+     margin-top: 20px;
+ }
+
+ .btn-place-order:hover {
+     background-color: #ff5252;
+     color: white;
+ }
+
+ .btn-place-order:disabled {
+     background-color: #6c757d;
+     cursor: not-allowed;
+ }
+
+ /* Responsive */
+ @media (max-width: 768px) {
+     .shipping-info {
+         flex-direction: column;
+         align-items: flex-start;
+     }
+
+     .shipping-price {
+         margin-top: 10px;
+     }
+ }

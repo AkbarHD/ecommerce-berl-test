@@ -29,8 +29,8 @@
  {{-- poppins --}}
  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
  {{-- datepicker --}}
- <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="{{ asset('style/sidebar.css') }}">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css"
+     rel="stylesheet" />
 
 
-
+ <link rel="stylesheet" href="{{ asset('style/sidebar.css') }}">

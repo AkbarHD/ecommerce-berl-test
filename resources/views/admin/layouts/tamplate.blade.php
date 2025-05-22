@@ -5,6 +5,7 @@
     <title>Halaman | @yield('title')</title>
     @include('admin.layouts.head')
     @yield('css')
+
 </head>
 <style>
     body {

@@ -1,0 +1,449 @@
+/* Page Header - sama seperti checkout */
+.page-header {
+    background-color: #f8f9fa;
+    padding: 50px 0;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.breadcrumb-item a {
+    color: #ff6b6b;
+    text-decoration: none;
+}
+
+/* Transaction Section */
+.transaction-section {
+    padding: 20px 0 60px 0;
+}
+
+/* Filter Section */
+.filter-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.filter-section h2 {
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 0;
+}
+
+.filter-controls {
+    text-align: right;
+}
+
+.filter-controls .form-select {
+    width: auto;
+    display: inline-block;
+    min-width: 200px;
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    padding: 8px 15px;
+}
+
+.filter-controls .form-select:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+}
+
+/* Transaction List */
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Transaction Card */
+.transaction-card {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.transaction-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Transaction Header */
+.transaction-header {
+    background-color: #f8f9fa;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.transaction-info {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.transaction-id {
+    font-size: 16px;
+    font-weight: 700;
+    color: #343a40;
+}
+
+.transaction-date {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-paid {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-processing {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-shipped {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-delivered {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Transaction Body */
+.transaction-body {
+    padding: 25px;
+}
+
+/* Order Items */
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.item-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #343a40;
+}
+
+.item-variant {
+    font-size: 13px;
+    color: #6c757d;
+    margin-bottom: 3px;
+}
+
+.item-qty {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.item-price {
+    font-weight: 600;
+    font-size: 16px;
+    color: #ff6b6b;
+}
+
+/* Order Summary Mini */
+.order-summary-mini {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-item.total {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 2px solid #e9ecef;
+}
+
+.summary-label {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: #343a40;
+    font-size: 14px;
+}
+
+.grand-total {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff6b6b;
+}
+
+/* Transaction Footer */
+.transaction-footer {
+    background-color: #f8f9fa;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e9ecef;
+}
+
+.shipping-info {
+    flex: 1;
+}
+
+.shipping-address {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.transaction-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.transaction-actions .btn {
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.transaction-actions .btn-primary {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.transaction-actions .btn-primary:hover {
+    background-color: #ff5252;
+    border-color: #ff5252;
+}
+
+.transaction-actions .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.transaction-actions .btn-danger:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}
+
+.transaction-actions .btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.transaction-actions .btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.transaction-actions .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.transaction-actions .btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.transaction-actions .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.transaction-actions .btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+    color: #212529;
+}
+
+/* Pagination */
+.pagination-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.pagination .page-link {
+    border-radius: 10px;
+    margin: 0 5px;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+    color: white;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+    color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+/* Modal Customization */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 20px 25px;
+}
+
+.modal-header .modal-title {
+    font-weight: 700;
+    color: #343a40;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.modal-footer {
+    border-top: 1px solid #e9ecef;
+    padding: 20px 25px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .filter-section .row {
+        gap: 15px;
+    }
+
+    .filter-controls {
+        text-align: left;
+    }
+
+    .filter-controls .form-select {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .transaction-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .transaction-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .transaction-footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .transaction-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .order-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .item-image {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .item-details {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .transaction-actions .btn {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+
+    .order-summary-mini {
+        margin-top: 20px;
+    }
+}

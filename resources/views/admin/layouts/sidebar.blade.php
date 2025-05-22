@@ -24,6 +24,18 @@
                         <span class="align-middle">Category</span>
                     </a>
                 </li>
+                <li class="sidebar-item {{ request()->routeIs('product.index') ? 'active' : '' }}">
+                    <a href="{{ route('product.index') }}" class="sidebar-link">
+                        <i class="fas fa-upload"></i>
+                        <span class="align-middle">Product</span>
+                    </a>
+                </li>
+                <li class="sidebar-item {{ request()->routeIs('setting_harga.index') ? 'active' : '' }}">
+                    <a href="{{ route('product.index') }}" class="sidebar-link">
+                        <i class="fas fa-upload"></i>
+                        <span class="align-middle">Setting Harga</span>
+                    </a>
+                </li>
             @elseif (Auth::check() && Auth::user()->role === 2)
                 {{-- Sidebar untuk staff --}}
                 <li class="sidebar-item ">

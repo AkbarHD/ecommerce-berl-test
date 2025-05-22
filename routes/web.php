@@ -3,7 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 
@@ -24,8 +27,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', 'FrontController@index')->name('home');
-Route::get('/product', 'FrontController@product')->name('product');
+Route::get('/products', 'FrontController@product')->name('products');
 Route::get('/keranjang', 'FrontController@keranjang')->name('keranjang');
+Route::get('/checkout', 'FrontController@checkout')->name('checkout');
+Route::get('/transaksi', 'FrontController@transaksi')->name('transaksi');
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout',  'LoginController@logout')->name('logout');
@@ -38,6 +43,24 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit', 'CategoryController@edit')->name('category.edit');
         Route::post('/update/{id}', 'CategoryController@update')->name('category.update');
         Route::delete('/delete/{id}', 'CategoryController@destroy')->name('category.destroy');
+    });
+
+    Route::prefix('product')->group(function () {
+        Route::get('/', 'ProductController@index')->name('product.index');
+        Route::get('/create', 'ProductController@create')->name('product.create');
+        Route::post('/store', 'ProductController@store')->name('product.store');
+        Route::get('/edit', 'ProductController@edit')->name('product.edit');
+        Route::post('/update/{id}', 'ProductController@update')->name('product.update');
+        Route::delete('/delete/{id}', 'ProductController@destroy')->name('product.destroy');
+    });
+
+    Route::prefix('setting_harga')->group(function () {
+        Route::get('/', 'SettingHargaController@index')->name('setting_harga.index');
+        Route::get('/create', 'SettingHargaController@create')->name('setting_harga.create');
+        Route::post('/store', 'SettingHargaController@store')->name('setting_harga.store');
+        Route::get('/edit', 'SettingHargaController@edit')->name('setting_harga.edit');
+        Route::post('/update/{id}', 'SettingHargaController@update')->name('setting_harga.update');
+        Route::delete('/delete/{id}', 'SettingHargaController@destroy')->name('setting_harga.destroy');
     });
 });
 

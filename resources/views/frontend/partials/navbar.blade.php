@@ -19,7 +19,10 @@
                     <a class="nav-link" href="{{ route('home') }}">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('product') }}">Produk</a>
+                    <a class="nav-link" href="{{ route('products') }}">Produk</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('transaksi') }}">Transaksi</a>
                 </li>
             </ul>
 
@@ -40,9 +43,15 @@
                             <span class="user-name">{{ auth()->user()->name }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{{ route('homeadmin') }}">
-                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
-                            </a>
+                            @if (auth()->user()->role == 1)
+                                <a class="dropdown-item" href="{{ route('homeadmin') }}">
+                                    <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                                </a>
+                            @else
+                                <a class="dropdown-item" href="javascript:void(0);">
+                                    <i class="fas fa-tachometer-alt mr-2"></i>Profile
+                                </a>
+                            @endif
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}">
                                 <i class="fas fa-sign-out-alt mr-2"></i>Logout
