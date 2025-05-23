@@ -349,19 +349,41 @@
 
 .btn-detail {
     flex: 1;
-    border-radius: 30px;
-    padding: 8px 15px;
-    font-weight: 500;
-    font-size: 12px;
-    border: 1px solid #ff6b6b;
-    background-color: white;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 2px solid #ff6b6b;
+    background: linear-gradient(135deg, #ffffff, #fff5f5);
     color: #ff6b6b;
-    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.15);
 }
 
 .btn-detail:hover {
-    background-color: #ff6b6b;
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+    text-decoration: none;
+    border-color: #ff5252;
+}
+
+.btn-detail:hover::before {
+    transform: scale(1.2);
+}
+
+.btn-detail:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
 }
 
 .btn-cart {

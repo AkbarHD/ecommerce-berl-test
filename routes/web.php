@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/transaksi/detail/{id}', 'FrontController@getTransactionDetail')->name('transaksi.detail');
     Route::post('/transaksi/batal/{id}', 'FrontController@cancelTransaction')->name('transaksi.cancel');
     Route::post('/transaksi/pay/{id}', 'FrontController@payWithMidtrans')->name('transaksi.pay');
-    // Route::post('/transaksi/update-status', 'FrontController@updateStatus')->name('transaksi.updateStatus');
+    Route::post('/transaksi/update-status', 'FrontController@updateStatus')->name('transaksi.updateStatus');
 
 
     // cart

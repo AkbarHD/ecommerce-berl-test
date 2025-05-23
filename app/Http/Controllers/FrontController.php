@@ -318,5 +318,21 @@ class FrontController extends Controller
         }
     }
 
+    public function updateStatus(Request $request)
+    {
+        $invoice = $request->invoice;
+
+        if (!$invoice || !Auth::check()) {
+            return response()->json(['error' => 'Invalid request'], 400);
+        }
+
+        DB::table('carts')
+            ->where('invoice', $invoice)
+            ->where('user_id', Auth::id())
+            ->update(['status' => 1]); // status 1 = lunas
+
+        return response()->json(['success' => 'Status berhasil diupdate']);
+    }
+
 
 }

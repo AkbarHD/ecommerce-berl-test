@@ -66,6 +66,10 @@ class HomeController extends Controller
             'updated_at' => now(),
         ]);
 
+        if($user->role == 1){
+            return redirect()->route('profile.admin')->with('success', 'Profile updated successfully.');
+        }
+
         return redirect()->route('profile')->with('success', 'Profile updated successfully.');
     }
 

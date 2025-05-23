@@ -147,7 +147,8 @@
                                             onclick="cancelOrder('{{ $transaction->id }}')">
                                             <i class="fas fa-times me-1"></i> Batal Pesanan
                                         </button>
-                                        <button class="btn btn-primary btn-sm" onclick="payNow('{{ $transaction->id }}')">
+                                        <button class="btn btn-primary btn-sm"
+                                            onclick="payNow('{{ $transaction->id }}', '{{ $transaction->invoice }}')">
                                             <i class="fas fa-credit-card me-1"></i> Bayar Sekarang
                                         </button>
                                     @elseif($transaction->status == 1)
@@ -213,7 +214,7 @@
         data-client-key="{{ config('services.midtrans.client_key') }}"></script>
 
     <script>
-        function payNow(id) {
+        function payNow(id, invoice) {
             $.ajax({
                 url: '/transaksi/pay/' + id,
                 type: 'POST',
@@ -224,9 +225,25 @@
                     if (response.snap_token) {
                         window.snap.pay(response.snap_token, {
                             onSuccess: function(result) {
-                                Swal.fire('Pembayaran Berhasil', 'Transaksi telah dibayar',
-                                        'success')
-                                    .then(() => location.reload());
+                                // Update status ke server
+                                $.ajax({
+                                    url: '/transaksi/update-status',
+                                    type: 'POST',
+                                    data: {
+                                        _token: $('meta[name="csrf-token"]').attr(
+                                            'content'),
+                                        invoice: result.order_id
+                                    },
+                                    success: function(res) {
+                                        Swal.fire('Pembayaran Berhasil',
+                                                'Transaksi telah dibayar', 'success')
+                                            .then(() => location.reload());
+                                    },
+                                    error: function() {
+                                        Swal.fire('Gagal', 'Gagal update status',
+                                            'error');
+                                    }
+                                });
                             },
                             onPending: function(result) {
                                 Swal.fire('Menunggu Pembayaran', 'Selesaikan pembayaranmu', 'info');
