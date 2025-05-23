@@ -5,7 +5,15 @@
     </tr>
     <tr>
         <th>Status</th>
-        <td>{{ $transaction->status ? 'Lunas' : 'Belum Bayar' }}</td>
+        <td>
+            @if ($transaction->status == 0)
+                <span class="badge bg-warning">Belum Bayar</span>
+            @elseif ($transaction->status == 1)
+                <span class="badge bg-success">Lunas</span>
+            @else
+                <span class="badge bg-danger">Batal</span>
+            @endif
+        </td>
     </tr>
     <tr>
         <th>Nama Pembeli</th>

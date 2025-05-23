@@ -33,8 +33,10 @@
                                     <td>
                                         @if ($transaction->status == 0)
                                             <span class="badge bg-warning">Belum Bayar</span>
-                                        @else
+                                        @elseif ($transaction->status == 1)
                                             <span class="badge bg-success">Lunas</span>
+                                        @else
+                                            <span class="badge bg-danger">Batal</span>
                                         @endif
                                     </td>
                                     <td>Rp {{ number_format($transaction->total ?? 0, 0, ',', '.') }}</td>
