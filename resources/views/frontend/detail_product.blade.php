@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/detail_product.css') }}">
 @endsection
 @section('content')
-    <div class="container mt-4">
+    <div class="container mt-4 mb-5">
         <!-- Back Button -->
         <div class="mb-3">
             <a href="{{ url()->previous() }}" class="btn btn-outline-secondary">
@@ -46,21 +46,12 @@
 
                     <div class="product-description mb-4">
                         <h5>Deskripsi:</h5>
-                        <p>{{ $product->keterangan }}</p>
-                    </div>
-
-                    <div class="product-quantity mb-4">
-                        <label class="form-label">Jumlah:</label>
-                        <div class="input-group" style="width: 150px;">
-                            <button class="btn btn-outline-secondary" type="button" id="minus-btn">-</button>
-                            <input type="number" class="form-control text-center" id="quantity" value="1"
-                                min="1">
-                            <button class="btn btn-outline-secondary" type="button" id="plus-btn">+</button>
-                        </div>
+                        <p>{!! $product->keterangan !!}</p>
                     </div>
 
                     <div class="product-actions">
-                        <button class="btn btn-danger btn-lg me-2" id="add-to-cart">
+                        <button class="btn btn-danger btn-lg me-2 add-to-cart" data-id="{{ $product->id }}"
+                            data-price="{{ $product->harga }}">
                             <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
                         </button>
                     </div>
@@ -71,21 +62,67 @@
 @endsection
 
 @section('js')
+
     <script>
         $(document).ready(function() {
-            // Quantity controls
-            $('#plus-btn').click(function() {
-                var qty = parseInt($('#quantity').val());
-                $('#quantity').val(qty + 1);
+            // add to card
+            $('.add-to-cart').on('click', function() {
+                let productId = $(this).data('id');
+                let price = $(this).data('price');
+                let qty = 1;
+
+                $.ajax({
+                    url: "{{ route('cart.add') }}",
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: productId,
+                        price: price,
+                        qty: qty
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: 'Produk ditambahkan ke keranjang.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        updateCartCount();
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops!',
+                            text: 'Gagal menambahkan produk. Silakan login terlebih dahulu.',
+                        });
+                    }
+                });
             });
 
-            $('#minus-btn').click(function() {
-                var qty = parseInt($('#quantity').val());
-                if (qty > 1) {
-                    $('#quantity').val(qty - 1);
-                }
-            });
+            function updateCartCount() {
+                $.ajax({
+                    url: "{{ route('cart.count') }}",
+                    method: "GET",
+                    success: function(response) {
+                        const count = response.count;
+                        let badge = $('.cart-badge');
+
+                        if (count > 0) {
+                            if (badge.length) {
+                                badge.text(count);
+                            } else {
+                                $('.cart-icon').append(
+                                    `<span class="cart-badge position-absolute badge rounded-pill bg-danger">${count}</span>`
+                                );
+                            }
+                        } else {
+                            badge.remove();
+                        }
+                    }
+                });
+            }
         });
     </script>
-
 @endsection

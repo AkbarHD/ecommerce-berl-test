@@ -36,6 +36,15 @@
      width: 100%;
  }
 
+ .navbar-nav .nav-item.active .nav-link {
+    color: #ff6b6b;
+}
+
+.navbar-nav .nav-item.active .nav-link:after {
+    width: 100%;
+}
+
+
  .cart-icon {
      color: #343a40;
      transition: all 0.3s ease;

@@ -15,18 +15,19 @@
         <!-- Menu Items -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item active">
+                <li class="nav-item {{ Route::currentRouteName() == 'home' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('home') }}">Beranda</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ Route::currentRouteName() == 'products' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('products') }}">Produk</a>
                 </li>
                 @auth
-                    <li class="nav-item">
+                    <li class="nav-item {{ Route::currentRouteName() == 'transaksi' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('transaksi') }}">Transaksi</a>
                     </li>
                 @endauth
             </ul>
+
 
             <!-- Conditional Login/User Info -->
             <div class="ms-auto d-flex align-items-center">
@@ -69,9 +70,17 @@
                     <div class="cart-icon-wrapper">
                         <a href="{{ route('keranjang') }}" class="cart-icon position-relative mr-3">
                             <i class="fas fa-shopping-cart fa-lg"></i>
-                            <span class="cart-badge position-absolute badge rounded-pill bg-danger">3</span>
+                            @php
+                                $cartCount = isset($globalCartItems) ? $globalCartItems->count() : 0;
+                            @endphp
+                            @if ($cartCount > 0)
+                                <span class="cart-badge position-absolute badge rounded-pill bg-danger">
+                                    {{ $cartCount }}
+                                </span>
+                            @endif
                         </a>
                     </div>
+
                 @endauth
 
 

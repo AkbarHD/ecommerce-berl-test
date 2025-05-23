@@ -12,8 +12,8 @@
             <h1>Daftar Transaksi</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-                    <li class="breadcrumb-item"><a href="#">Akun</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('profile') }}">Akun</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Transaksi</li>
                 </ol>
             </nav>
@@ -23,22 +23,25 @@
     <div class="container">
         <section class="transaction-section">
             <!-- Filter Section -->
-            <div class="filter-section">
+            <div class="filter-section mb-4">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <h2>Riwayat Pesanan Anda</h2>
+                        <h2 class="mb-0">Riwayat Pesanan Anda</h2>
                     </div>
                     <div class="col-md-6">
                         <div class="filter-controls">
-                            <select class="form-select" id="statusFilter">
-                                <option value="">Semua Status</option>
-                                <option value="pending">Menunggu Pembayaran</option>
-                                <option value="paid">Sudah Dibayar</option>
-                                <option value="processing">Diproses</option>
-                                <option value="shipped">Dikirim</option>
-                                <option value="delivered">Selesai</option>
-                                <option value="cancelled">Dibatalkan</option>
-                            </select>
+                            <form method="GET" action="{{ route('transaksi') }}" id="filterForm">
+                                <select class="form-select" id="statusFilter" name="status"
+                                    onchange="document.getElementById('filterForm').submit();">
+                                    <option value="">Semua Status</option>
+                                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending
+                                    </option>
+                                    <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Lunas
+                                    </option>
+                                    <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>
+                                        Dibatalkan</option>
+                                </select>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -46,306 +49,280 @@
 
             <!-- Transaction List -->
             <div class="transaction-list">
-                <!-- Transaction Item 1 -->
-                <div class="transaction-card" data-status="pending">
-                    <div class="transaction-header">
-                        <div class="transaction-info">
-                            <div class="transaction-id">
-                                <i class="fas fa-receipt me-2"></i>
-                                <strong>INV-2024-001</strong>
+                @if ($transactions->count() > 0)
+                    @foreach ($transactions as $transaction)
+                        <div class="transaction-card mb-4" data-status="{{ $transaction->status }}">
+                            <div class="transaction-header">
+                                <div class="transaction-info">
+                                    <div class="transaction-id">
+                                        <i class="fas fa-receipt me-2"></i>
+                                        <strong>{{ $transaction->invoice }}</strong>
+                                    </div>
+                                    <div class="transaction-date">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        {{ \Carbon\Carbon::parse($transaction->created_at)->locale('id')->translatedFormat('d F Y') }}
+                                    </div>
+                                </div>
+                                <div class="transaction-status">
+                                    <span
+                                        class="status-badge {{ $transaction->status_class }}">{{ $transaction->status_text }}</span>
+                                </div>
                             </div>
-                            <div class="transaction-date">
-                                <i class="fas fa-calendar me-1"></i>
-                                22 Mei 2025
-                            </div>
-                        </div>
-                        <div class="transaction-status">
-                            <span class="status-badge status-pending">Menunggu Pembayaran</span>
-                        </div>
-                    </div>
 
-                    <div class="transaction-body">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <!-- Order Items -->
-                                <div class="order-items">
-                                    <div class="order-item">
-                                        <div class="item-image">
-                                            <img src="{{ asset('assets/image/frontend/product-1.jpg') }}"
-                                                alt="Super Healthy Bowl">
+                            <div class="transaction-body">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <!-- Order Items -->
+                                        <div class="order-items">
+                                            @foreach ($transaction->details as $detail)
+                                                <div class="order-item">
+                                                    <div class="item-image">
+                                                        <img src="{{ asset($detail->gambar) }}"
+                                                            alt="{{ $detail->nama_product }}"
+                                                            onerror="this.src='{{ asset('assets/image/no-image.png') }}'">
+                                                    </div>
+                                                    <div class="item-details">
+                                                        <div class="item-name">{{ $detail->nama_product }}</div>
+                                                        <div class="item-variant">Harga Satuan:
+                                                            Rp{{ number_format($detail->price, 0, ',', '.') }}</div>
+                                                        <div class="item-qty">Qty: {{ $detail->qty }}</div>
+                                                    </div>
+                                                    <div class="item-price">
+                                                        Rp{{ number_format($detail->qty * $detail->price, 0, ',', '.') }}
+                                                    </div>
+                                                </div>
+                                            @endforeach
                                         </div>
-                                        <div class="item-details">
-                                            <div class="item-name">Super Healthy Bowl</div>
-                                            <div class="item-variant">Ukuran: Medium</div>
-                                            <div class="item-qty">Qty: 2</div>
-                                        </div>
-                                        <div class="item-price">Rp90.000</div>
                                     </div>
 
-                                    <div class="order-item">
-                                        <div class="item-image">
-                                            <img src="{{ asset('assets/image/frontend/product-2.jpg') }}" alt="Green Salad">
+                                    <div class="col-lg-4">
+                                        <!-- Order Summary -->
+                                        <div class="order-summary-mini">
+                                            <div class="summary-item">
+                                                <span class="summary-label">Subtotal</span>
+                                                <span
+                                                    class="summary-value">Rp{{ number_format($transaction->subtotal, 0, ',', '.') }}</span>
+                                            </div>
+                                            <div class="summary-item">
+                                                <span class="summary-label">Ongkir ({{ $transaction->ekspedisi }})</span>
+                                                <span
+                                                    class="summary-value">Rp{{ number_format($transaction->ongkir, 0, ',', '.') }}</span>
+                                            </div>
+                                            <hr>
+                                            <div class="summary-item total">
+                                                <span class="summary-label">Total</span>
+                                                <span
+                                                    class="grand-total">Rp{{ number_format($transaction->grand_total, 0, ',', '.') }}</span>
+                                            </div>
                                         </div>
-                                        <div class="item-details">
-                                            <div class="item-name">Fresh Green Salad</div>
-                                            <div class="item-variant">Extra Dressing</div>
-                                            <div class="item-qty">Qty: 1</div>
-                                        </div>
-                                        <div class="item-price">Rp35.000</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-4">
-                                <!-- Order Summary -->
-                                <div class="order-summary-mini">
-                                    <div class="summary-item">
-                                        <span class="summary-label">Subtotal</span>
-                                        <span class="summary-value">Rp125.000</span>
+                            <div class="transaction-footer">
+                                <div class="shipping-info">
+                                    <div class="shipping-address">
+                                        @if ($transaction->status == 1)
+                                            <i class="fas fa-check-circle me-1 text-success"></i>
+                                            <span>Pesanan sudah dibayar - {{ $transaction->nama_lengkap }},
+                                                {{ $transaction->province }}</span>
+                                        @elseif($transaction->status == 2)
+                                            <i class="fas fa-times-circle me-1 text-danger"></i>
+                                            <span>Pesanan dibatalkan</span>
+                                        @else
+                                            <i class="fas fa-map-marker-alt me-1"></i>
+                                            <span>Dikirim ke: {{ $transaction->nama_lengkap }},
+                                                {{ $transaction->province }}</span>
+                                        @endif
                                     </div>
-                                    <div class="summary-item">
-                                        <span class="summary-label">Ongkir (JNE)</span>
-                                        <span class="summary-value">Rp15.000</span>
-                                    </div>
-                                    <div class="summary-item">
-                                        <span class="summary-label">Diskon</span>
-                                        <span class="summary-value">-Rp10.000</span>
-                                    </div>
-                                    <hr>
-                                    <div class="summary-item total">
-                                        <span class="summary-label">Total</span>
-                                        <span class="grand-total">Rp130.000</span>
-                                    </div>
+                                </div>
+                                <div class="transaction-actions">
+                                    <button class="btn btn-outline-secondary btn-sm"
+                                        onclick="viewDetail('{{ $transaction->id }}')">
+                                        <i class="fas fa-eye me-1"></i> Detail
+                                    </button>
+
+                                    @if ($transaction->status == 0)
+                                        <button class="btn btn-danger btn-sm"
+                                            onclick="cancelOrder('{{ $transaction->id }}')">
+                                            <i class="fas fa-times me-1"></i> Batal Pesanan
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="payNow('{{ $transaction->id }}')">
+                                            <i class="fas fa-credit-card me-1"></i> Bayar Sekarang
+                                        </button>
+                                    @elseif($transaction->status == 1)
+                                        <button class="btn btn-success btn-sm" disabled>
+                                            <i class="fas fa-check me-1"></i> Lunas
+                                        </button>
+                                    @else
+                                        <button class="btn btn-secondary btn-sm" disabled>
+                                            <i class="fas fa-ban me-1"></i> Dibatalkan
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="transaction-footer">
-                        <div class="shipping-info">
-                            <div class="shipping-address">
-                                <i class="fas fa-map-marker-alt me-1"></i>
-                                <span>Dikirim ke: John Doe, Jakarta Selatan</span>
-                            </div>
-                        </div>
-                        <div class="transaction-actions">
-                            <button class="btn btn-outline-secondary btn-sm" onclick="viewDetail('INV-2024-001')">
-                                <i class="fas fa-eye me-1"></i> Detail
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="cancelOrder('INV-2024-001')">
-                                <i class="fas fa-times me-1"></i> Batal Pesanan
-                            </button>
-                            <button class="btn btn-primary btn-sm" onclick="payOrder('INV-2024-001')">
-                                <i class="fas fa-credit-card me-1"></i> Bayar Sekarang
-                            </button>
+                    @endforeach
+                @else
+                    <div class="no-transactions">
+                        <div class="text-center py-5">
+                            <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">Belum Ada Transaksi</h4>
+                            <p class="text-muted mb-4">Anda belum memiliki riwayat transaksi</p>
+                            <a href="{{ route('products') }}" class="btn btn-primary">
+                                <i class="fas fa-shopping-bag me-2"></i>Mulai Belanja
+                            </a>
                         </div>
                     </div>
-                </div>
-
-                <!-- Transaction Item 2 -->
-                <div class="transaction-card" data-status="shipped">
-                    <div class="transaction-header">
-                        <div class="transaction-info">
-                            <div class="transaction-id">
-                                <i class="fas fa-receipt me-2"></i>
-                                <strong>INV-2024-002</strong>
-                            </div>
-                            <div class="transaction-date">
-                                <i class="fas fa-calendar me-1"></i>
-                                20 Mei 2025
-                            </div>
-                        </div>
-                        <div class="transaction-status">
-                            <span class="status-badge status-shipped">Dikirim</span>
-                        </div>
-                    </div>
-
-                    <div class="transaction-body">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="order-items">
-                                    <div class="order-item">
-                                        <div class="item-image">
-                                            <img src="{{ asset('assets/image/frontend/product-3.jpg') }}"
-                                                alt="Protein Bowl">
-                                        </div>
-                                        <div class="item-details">
-                                            <div class="item-name">Protein Power Bowl</div>
-                                            <div class="item-variant">Extra Protein</div>
-                                            <div class="item-qty">Qty: 1</div>
-                                        </div>
-                                        <div class="item-price">Rp55.000</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="order-summary-mini">
-                                    <div class="summary-item">
-                                        <span class="summary-label">Subtotal</span>
-                                        <span class="summary-value">Rp55.000</span>
-                                    </div>
-                                    <div class="summary-item">
-                                        <span class="summary-label">Ongkir (J&T)</span>
-                                        <span class="summary-value">Rp12.000</span>
-                                    </div>
-                                    <hr>
-                                    <div class="summary-item total">
-                                        <span class="summary-label">Total</span>
-                                        <span class="grand-total">Rp67.000</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="transaction-footer">
-                        <div class="shipping-info">
-                            <div class="shipping-address">
-                                <i class="fas fa-truck me-1"></i>
-                                <span>No. Resi: JP123456789 - Sedang dalam perjalanan</span>
-                            </div>
-                        </div>
-                        <div class="transaction-actions">
-                            <button class="btn btn-outline-secondary btn-sm" onclick="viewDetail('INV-2024-002')">
-                                <i class="fas fa-eye me-1"></i> Detail
-                            </button>
-                            <button class="btn btn-success btn-sm" onclick="trackOrder('JP123456789')">
-                                <i class="fas fa-map-marker-alt me-1"></i> Lacak Pesanan
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Transaction Item 3 -->
-                <div class="transaction-card" data-status="delivered">
-                    <div class="transaction-header">
-                        <div class="transaction-info">
-                            <div class="transaction-id">
-                                <i class="fas fa-receipt me-2"></i>
-                                <strong>INV-2024-003</strong>
-                            </div>
-                            <div class="transaction-date">
-                                <i class="fas fa-calendar me-1"></i>
-                                18 Mei 2025
-                            </div>
-                        </div>
-                        <div class="transaction-status">
-                            <span class="status-badge status-delivered">Selesai</span>
-                        </div>
-                    </div>
-
-                    <div class="transaction-body">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="order-items">
-                                    <div class="order-item">
-                                        <div class="item-image">
-                                            <img src="{{ asset('assets/image/frontend/product-4.jpg') }}"
-                                                alt="Smoothie Bowl">
-                                        </div>
-                                        <div class="item-details">
-                                            <div class="item-name">Berry Smoothie Bowl</div>
-                                            <div class="item-variant">Mixed Berry</div>
-                                            <div class="item-qty">Qty: 2</div>
-                                        </div>
-                                        <div class="item-price">Rp80.000</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="order-summary-mini">
-                                    <div class="summary-item">
-                                        <span class="summary-label">Subtotal</span>
-                                        <span class="summary-value">Rp80.000</span>
-                                    </div>
-                                    <div class="summary-item">
-                                        <span class="summary-label">Ongkir (SiCepat)</span>
-                                        <span class="summary-value">Rp13.000</span>
-                                    </div>
-                                    <hr>
-                                    <div class="summary-item total">
-                                        <span class="summary-label">Total</span>
-                                        <span class="grand-total">Rp93.000</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="transaction-footer">
-                        <div class="shipping-info">
-                            <div class="shipping-address">
-                                <i class="fas fa-check-circle me-1 text-success"></i>
-                                <span>Pesanan telah diterima pada 19 Mei 2025</span>
-                            </div>
-                        </div>
-                        <div class="transaction-actions">
-                            <button class="btn btn-outline-secondary btn-sm" onclick="viewDetail('INV-2024-003')">
-                                <i class="fas fa-eye me-1"></i> Detail
-                            </button>
-                            <button class="btn btn-warning btn-sm" onclick="reviewOrder('INV-2024-003')">
-                                <i class="fas fa-star me-1"></i> Beri Ulasan
-                            </button>
-                            <button class="btn btn-success btn-sm" onclick="reorder('INV-2024-003')">
-                                <i class="fas fa-redo me-1"></i> Pesan Lagi
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
+
 
             <!-- Pagination -->
-            <div class="pagination-section">
-                <nav aria-label="Transaction pagination">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+            <div class="mt-4 d-flex justify-content-center align-items-center">
+                {{ $transactions->links('pagination::bootstrap-4') }}
+
             </div>
+
         </section>
     </div>
 
-    <!-- Detail Modal -->
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <!-- Modal Detail Transaksi -->
+    <div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-labelledby="transactionDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detailModalLabel">Detail Pesanan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="transactionDetailModalLabel">Detail Transaksi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
-                <div class="modal-body">
-                    <!-- Detail content will be loaded here -->
-                    <div id="modalContent">
-                        <div class="text-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+                <div class="modal-body" id="transaction-detail-body">
+                    <!-- Konten detail akan dimuat di sini -->
+                    <div class="text-center">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('js')
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+
+    <script>
+        function payNow(id) {
+            $.ajax({
+                url: '/transaksi/pay/' + id,
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.snap_token) {
+                        window.snap.pay(response.snap_token, {
+                            onSuccess: function(result) {
+                                Swal.fire('Pembayaran Berhasil', 'Transaksi telah dibayar',
+                                        'success')
+                                    .then(() => location.reload());
+                            },
+                            onPending: function(result) {
+                                Swal.fire('Menunggu Pembayaran', 'Selesaikan pembayaranmu', 'info');
+                            },
+                            onError: function(result) {
+                                Swal.fire('Gagal', 'Pembayaran gagal', 'error');
+                            }
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire('Gagal', xhr.responseJSON?.error || 'Terjadi kesalahan', 'error');
+                }
+            });
+        }
+
+        function cancelOrder(id) {
+            Swal.fire({
+                title: 'Batalkan Pesanan?',
+                text: "Pesanan yang dibatalkan tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, batalkan!',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/transaksi/batal/' + id,
+                        type: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            Swal.fire('Berhasil!', response.success, 'success').then(() => {
+                                location.reload(); // Reload agar status terupdate
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire('Gagal', xhr.responseJSON?.error || 'Terjadi kesalahan.',
+                                'error');
+                        }
+                    });
+                }
+            });
+        }
+
+        function formatRupiah(number) {
+            return 'Rp' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function viewDetail(transactionId) {
+            $('#transaction-detail-body').html(
+                `<div class="text-center"><i class="fas fa-spinner fa-spin fa-2x"></i></div>`);
+            $('#transactionDetailModal').modal('show');
+
+            $.ajax({
+                url: '/transaksi/detail/' + transactionId,
+                method: 'GET',
+                success: function(res) {
+                    const tr = res.transaction;
+                    let itemsHtml = '';
+
+                    tr.details.forEach(item => {
+                        itemsHtml += `
+                    <div class="d-flex mb-3 border-bottom pb-2">
+                        <img src="${item.gambar}" onerror="this.src='/assets/image/no-image.png'" width="60" height="60" class="me-3">
+                        <div>
+                            <strong>${item.nama_product}</strong><br>
+                            Harga: ${formatRupiah(item.price)}<br>
+                            Qty: ${item.qty}<br>
+                            Total: ${formatRupiah(item.price * item.qty)}
+                        </div>
+                    </div>
+                `;
+                    });
+
+                    const summaryHtml = `
+                <div class="mb-2"><strong>Status:</strong> <span class="${tr.status_class}">${tr.status_text}</span></div>
+                <div class="mb-2"><strong>Subtotal:</strong> ${formatRupiah(tr.subtotal)}</div>
+                <div class="mb-2"><strong>Ongkir:</strong> ${formatRupiah(tr.ongkir)}</div>
+                <div class="mb-2"><strong>Total:</strong> <span class="fw-bold">${formatRupiah(tr.grand_total)}</span></div>
+                <div class="mb-2"><strong>Alamat:</strong> ${tr.nama_lengkap}, ${tr.province}</div>
+            `;
+
+                    $('#transaction-detail-body').html(itemsHtml + '<hr>' + summaryHtml);
+                },
+                error: function() {
+                    $('#transaction-detail-body').html(
+                        '<div class="alert alert-danger text-center">Gagal memuat detail transaksi.</div>');
+                }
+            });
+
+
+
+        }
+    </script>
 @endsection

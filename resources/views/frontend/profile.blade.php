@@ -15,8 +15,7 @@
                         <div class="profile-header">
                             <div class="profile-avatar">
                                 @if ($user->logo)
-                                    <img src="{{ asset( $user->logo) }}" alt="Profile Picture"
-                                        class="avatar-img">
+                                    <img src="{{ asset($user->logo) }}" alt="Profile Picture" class="avatar-img">
                                 @else
                                     <div class="avatar-placeholder">
                                         <i class="fas fa-user fa-3x"></i>
@@ -131,8 +130,8 @@
                                 <div class="text-center">
                                     <div class="upload-preview mb-3">
                                         @if ($user->logo)
-                                            <img src="{{ asset('storage/logos/' . $user->logo) }}" alt="Profile Picture"
-                                                class="preview-img" id="previewImg">
+                                            <img src="{{ asset($user->logo) }}" alt="Profile Picture" class="preview-img"
+                                                id="previewImg">
                                         @else
                                             <div class="preview-placeholder" id="previewPlaceholder">
                                                 <i class="fas fa-user fa-2x"></i>
@@ -140,11 +139,13 @@
                                         @endif
                                     </div>
                                     <div class="upload-btn-wrapper">
-                                        <button type="button" class="btn btn-outline-primary">
+                                        <button type="button" class="btn btn-outline-primary" id="triggerUpload">
                                             <i class="fas fa-camera me-1"></i>Change Photo
                                         </button>
-                                        <input type="file" name="logo" id="logoInput" accept="image/*">
+                                        <input type="file" name="logo" id="logoInput" accept="image/*"
+                                            style="display: none;">
                                     </div>
+
                                 </div>
                             </div>
 
@@ -257,4 +258,27 @@
 @endsection
 
 @section('js')
+    <script>
+        document.getElementById('triggerUpload').addEventListener('click', function() {
+            document.getElementById('logoInput').click();
+        });
+
+        document.getElementById('logoInput').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('previewImg');
+                if (preview) {
+                    preview.src = e.target.result;
+                } else {
+                    // Kalau belum ada previewImg, tampilkan placeholder
+                    document.getElementById('previewPlaceholder').innerHTML =
+                        `<img src="${e.target.result}" alt="Preview" class="preview-img" id="previewImg">`;
+                }
+            };
+            if (this.files[0]) {
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    </script>
+
 @endsection

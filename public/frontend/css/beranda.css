@@ -1,3 +1,14 @@
+:root {
+    --primary-color: #ff5252;
+    --primary-dark: #e03e3e;
+    --primary-light: #ff7676;
+    --text-color: #333333;
+    --light-gray: #f5f5f5;
+    --border-radius: 12px;
+    --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
 /* Hero Section Styles */
 .owl-carousel .carousel-item {
     display: block !important;

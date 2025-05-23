@@ -298,7 +298,7 @@
                         </div>
 
                         <button class="btn btn-warning mt-3" type="submit">Filter</button>
-                       <a href="{{ route('products') }}" class="btn btn-danger mt-3">Refresh</a>
+                        <a href="{{ route('products') }}" class="btn btn-danger mt-3">Refresh</a>
                     </form>
                 </div>
             </div>
@@ -325,12 +325,15 @@
                                             <i class="fas fa-star"></i>
                                         </div>
                                         <div class="product-price">
-                                            <span class="current-price">{{ $product->harga }}</span>
+                                            <span
+                                                class="current-price">Rp{{ number_format($product->harga, 0, ',', '.') }}</span>
                                             <span class="old-price">Rp60.000</span>
                                         </div>
                                         <div class="product-buttons">
-                                            <a href="{{ route('products.detail', $product->id) }}" class="btn btn-detail">Detail</a>
-                                            <button class="btn btn-cart">
+                                            <a href="{{ route('products.detail', $product->id) }}"
+                                                class="btn btn-detail">Detail</a>
+                                            <button class="btn btn-cart add-to-cart" data-id="{{ $product->id }}"
+                                                data-price="{{ $product->harga }}">
                                                 <i class="fas fa-shopping-cart"></i>
                                             </button>
                                         </div>
@@ -345,7 +348,7 @@
 
                     <!-- Pagination -->
                     <div class="mt-4">
-                       {{ $products->links('pagination::bootstrap-4') }}
+                        {{ $products->links('pagination::bootstrap-4') }}
 
                     </div>
 
@@ -356,4 +359,65 @@
 @endsection
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            $('.add-to-cart').on('click', function() {
+                let productId = $(this).data('id');
+                let price = $(this).data('price');
+                let qty = 1;
+
+                $.ajax({
+                    url: "{{ route('cart.add') }}",
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: productId,
+                        price: price,
+                        qty: qty
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: 'Produk ditambahkan ke keranjang.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        updateCartCount();
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops!',
+                            text: 'Gagal menambahkan produk. Silakan login terlebih dahulu.',
+                        });
+                    }
+                });
+            });
+
+            function updateCartCount() {
+                $.ajax({
+                    url: "{{ route('cart.count') }}",
+                    method: "GET",
+                    success: function(response) {
+                        const count = response.count;
+                        let badge = $('.cart-badge');
+
+                        if (count > 0) {
+                            if (badge.length) {
+                                badge.text(count);
+                            } else {
+                                $('.cart-icon').append(
+                                    `<span class="cart-badge position-absolute badge rounded-pill bg-danger">${count}</span>`
+                                );
+                            }
+                        } else {
+                            badge.remove();
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

@@ -11,9 +11,9 @@
             <h1>Checkout</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-                    <li class="breadcrumb-item"><a href="#">Produk</a></li>
-                    <li class="breadcrumb-item"><a href="#">Keranjang</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('products') }}">Produk</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('keranjang') }}">Keranjang</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                 </ol>
             </nav>
@@ -33,14 +33,12 @@
                     <div class="form-card">
                         <h4><i class="fas fa-user me-2"></i>Informasi Pelanggan</h4>
                         <form id="checkoutForm">
+                            @csrf
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="firstName" class="form-label">Nama Depan *</label>
-                                    <input type="text" class="form-control" id="firstName" name="firstName" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="lastName" class="form-label">Nama Belakang *</label>
-                                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                <div class="col-md-12">
+                                    <label for="nama_lengkap" class="form-label">Nama lengkap *</label>
+                                    <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap"
+                                        required>
                                 </div>
                             </div>
                             <div class="row">
@@ -50,7 +48,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="phone" class="form-label">No. HP *</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    <input type="text" class="form-control" id="phone" name="phone" required>
                                 </div>
                             </div>
                         </form>
@@ -63,38 +61,18 @@
                             <div class="col-md-6">
                                 <label for="province" class="form-label">Provinsi *</label>
                                 <select class="form-select" id="province" name="province" required>
-                                    <option value="">Pilih Provinsi</option>
-                                    <option value="jawa-barat">Jawa Barat</option>
-                                    <option value="jawa-tengah">Jawa Tengah</option>
-                                    <option value="jawa-timur">Jawa Timur</option>
-                                    <option value="dki-jakarta">DKI Jakarta</option>
-                                    <option value="banten">Banten</option>
-                                    <option value="yogyakarta">Yogyakarta</option>
+                                    <option value="">-- Pilih Provinsi --</option>
+                                    @foreach ($provinces as $province)
+                                        <option value="{{ $province }}">{{ $province }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="city" class="form-label">Kota/Kabupaten *</label>
-                                <select class="form-select" id="city" name="city" required>
-                                    <option value="">Pilih Kota</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="district" class="form-label">Kecamatan *</label>
-                                <select class="form-select" id="district" name="district" required>
-                                    <option value="">Pilih Kecamatan</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="postalCode" class="form-label">Kode Pos *</label>
-                                <input type="text" class="form-control" id="postalCode" name="postalCode" required>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">Alamat Lengkap *</label>
-                            <textarea class="form-control" id="address" name="address" rows="3" placeholder="Masukkan alamat lengkap..."
-                                required></textarea>
+                            <textarea class="form-control" id="address" name="address" rows="3"
+                                placeholder="Masukkan alamat lengkap beserta kode pos" required></textarea>
                         </div>
                     </div>
 
@@ -151,60 +129,42 @@
                     <div class="order-summary">
                         <h3 class="summary-title">Ringkasan Pesanan</h3>
 
-                        <!-- Order Items -->
-                        <div class="order-item">
-                            <div class="item-image">
-                                <img src="{{ asset('assets/image/frontend/product-1.jpg') }}" alt="Super Healthy Bowl">
+                        @php $grandTotal = 0; @endphp
+                        @foreach ($cartItems as $item)
+                            @php
+                                $subTotal = $item->qty * $item->harga;
+                                $grandTotal += $subTotal;
+                            @endphp
+                            <div class="order-item">
+                                <div class="item-image">
+                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama_product }}">
+                                </div>
+                                <div class="item-details">
+                                    <div class="item-name">{{ $item->nama_product }}</div>
+                                    <div class="item-qty">Qty: {{ $item->qty }}</div>
+                                </div>
+                                <div class="item-price">Rp{{ number_format($subTotal, 0, ',', '.') }}</div>
                             </div>
-                            <div class="item-details">
-                                <div class="item-name">Super Healthy Bowl</div>
-                                <div class="item-qty">Qty: 1</div>
-                            </div>
-                            <div class="item-price">Rp45.000</div>
-                        </div>
-
-                        <div class="order-item">
-                            <div class="item-image">
-                                <img src="{{ asset('assets/image/frontend/product-2.jpg') }}" alt="Fresh Salad">
-                            </div>
-                            <div class="item-details">
-                                <div class="item-name">Fresh Garden Salad</div>
-                                <div class="item-qty">Qty: 2</div>
-                            </div>
-                            <div class="item-price">Rp70.000</div>
-                        </div>
-
-                        <div class="order-item">
-                            <div class="item-image">
-                                <img src="{{ asset('assets/image/frontend/product-3.jpg') }}" alt="Smoothie">
-                            </div>
-                            <div class="item-details">
-                                <div class="item-name">Green Smoothie</div>
-                                <div class="item-qty">Qty: 1</div>
-                            </div>
-                            <div class="item-price">Rp25.000</div>
-                        </div>
+                        @endforeach
 
                         <!-- Summary Calculation -->
                         <div class="summary-item">
                             <span class="summary-label">Subtotal</span>
-                            <span class="summary-value" id="subtotal">Rp140.000</span>
+                            <span class="summary-value"
+                                id="subtotal">Rp{{ number_format($grandTotal, 0, ',', '.') }}</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-label">Pengiriman</span>
                             <span class="summary-value" id="shippingCost">Rp0</span>
                         </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Diskon</span>
-                            <span class="summary-value">-Rp10.000</span>
-                        </div>
+
                         <hr>
                         <div class="summary-item">
                             <span class="summary-label">Total</span>
                             <span class="grand-total" id="grandTotal">Rp130.000</span>
                         </div>
 
-                        <button class="btn btn-place-order" id="placeOrderBtn" disabled>
+                        <button class="btn btn-place-order" id="placeOrderBtn">
                             <i class="fas fa-credit-card me-2"></i> Buat Pesanan
                         </button>
                     </div>
@@ -215,4 +175,166 @@
 @endsection
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            let subtotal = {{ $grandTotal }};
+            let shippingCost = 0;
+
+            // Update grand total function
+            function updateGrandTotal() {
+                let total = subtotal + shippingCost;
+                $('#grandTotal').text('Rp' + total.toLocaleString('id-ID'));
+            }
+
+            // Handle shipping method selection
+            $('input[name="shipping"]').change(function() {
+                if ($(this).is(':checked')) {
+                    // Remove selected class from all shipping options
+                    $('.shipping-option').removeClass('selected active');
+
+                    // Add selected class to current option
+                    $(this).closest('.shipping-option').addClass('selected active');
+
+                    // Update shipping cost
+                    let price = parseInt($(this).closest('.shipping-option').data('price'));
+                    shippingCost = price;
+                    $('#shippingCost').text('Rp' + price.toLocaleString('id-ID'));
+                    updateGrandTotal();
+                }
+            });
+
+            // Handle click on shipping option div (not just radio button)
+            $('.shipping-option').click(function() {
+                // Find the radio button inside this option and check it
+                let radioButton = $(this).find('input[type="radio"]');
+                radioButton.prop('checked', true);
+
+                // Trigger the change event
+                radioButton.trigger('change');
+            });
+
+            // Optional: Add visual feedback on hover
+            $('.shipping-option').hover(
+                function() {
+                    if (!$(this).hasClass('selected')) {
+                        $(this).addClass('hover-effect');
+                    }
+                },
+                function() {
+                    $(this).removeClass('hover-effect');
+                }
+            );
+
+            $('#placeOrderBtn').click(function() {
+                let formValid = true;
+                let errorMessage = '';
+
+                // Validasi input
+                if (!$('#nama_lengkap').val().trim()) {
+                    formValid = false;
+                    errorMessage += 'Nama lengkap harus diisi<br>';
+                }
+                if (!$('#email').val().trim()) {
+                    formValid = false;
+                    errorMessage += 'Email harus diisi<br>';
+                }
+                if (!$('#phone').val().trim()) {
+                    formValid = false;
+                    errorMessage += 'Nomor HP harus diisi<br>';
+                }
+                if (!$('#province').val()) {
+                    formValid = false;
+                    errorMessage += 'Provinsi harus dipilih<br>';
+                }
+                if (!$('#address').val().trim()) {
+                    formValid = false;
+                    errorMessage += 'Alamat harus diisi<br>';
+                }
+                if (!$('input[name="shipping"]:checked').val()) {
+                    formValid = false;
+                    errorMessage += 'Metode pengiriman harus dipilih<br>';
+                }
+
+                if (!formValid) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Validasi Gagal',
+                        html: errorMessage,
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+
+                // Disable button
+                $(this).prop('disabled', true).html(
+                    '<i class="fas fa-spinner fa-spin me-2"></i>Memproses...');
+
+                // Siapkan data
+                let formData = {
+                    nama_lengkap: $('#nama_lengkap').val().trim(),
+                    email: $('#email').val().trim(),
+                    no_hp: $('#phone').val().trim(),
+                    province: $('#province').val(),
+                    alamat: $('#address').val().trim(),
+                    ekspedisi: $('input[name="shipping"]:checked').val(),
+                    ongkir: shippingCost,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                };
+
+                // Kirim via AJAX
+                $.ajax({
+                    url: '{{ route('checkout.store') }}',
+                    method: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Pesanan Berhasil Dibuat!',
+                                html: 'Invoice: <strong>' + response.invoice +
+                                    '</strong>',
+                                confirmButtonText: 'Lihat Transaksi'
+                            }).then(() => {
+                                window.location.href = '{{ route('transaksi') }}';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi Kesalahan',
+                                text: response.message
+                            });
+                            $('#placeOrderBtn').prop('disabled', false).html(
+                                '<i class="fas fa-credit-card me-2"></i> Buat Pesanan');
+                        }
+                    },
+                    error: function(xhr) {
+                        let errorMsg = 'Terjadi kesalahan sistem. Silakan coba lagi.';
+
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            errorMsg = 'Validasi gagal:<br>';
+                            const errors = xhr.responseJSON.errors;
+                            for (const field in errors) {
+                                errorMsg += '- ' + errors[field].join('<br>- ') + '<br>';
+                            }
+                        } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal Membuat Pesanan',
+                            html: errorMsg
+                        });
+                        $('#placeOrderBtn').prop('disabled', false).html(
+                            '<i class="fas fa-credit-card me-2"></i> Buat Pesanan');
+                    }
+                });
+            });
+
+
+            // Initialize grand total
+            updateGrandTotal();
+        });
+    </script>
 @endsection

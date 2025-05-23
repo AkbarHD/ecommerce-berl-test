@@ -25,7 +25,11 @@ class LoginController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
-            return redirect()->route('homeadmin');
+            if(Auth::user()->role == 1){
+                return redirect()->route('homeadmin');
+            }else{
+                return redirect()->route('profile');
+            }
         } else {
             return back()->withErrors(['errors' => 'Email atau password salah.'])->withInput();
         }

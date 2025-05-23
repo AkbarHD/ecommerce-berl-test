@@ -20,7 +20,7 @@
                     <h2>Makanan Sehat & Lezat</h2>
                     <p>Nikmati berbagai pilihan makanan dan minuman berkualitas tinggi dengan bahan-bahan segar pilihan
                         untuk memenuhi kebutuhan gizi harian Anda.</p>
-                    <a href="#" class="btn btn-hero">Pesan Sekarang</a>
+                    <a href="#product" class="btn btn-hero">Lihat Menu</a>
                 </div>
             </div>
             <div class="carousel-slide"
@@ -31,7 +31,7 @@
                     <h2>Minuman Menyegarkan</h2>
                     <p>Dari jus buah segar hingga kopi premium, semua minuman kami dibuat dengan bahan berkualitas untuk
                         menyegarkan hari Anda.</p>
-                    <a href="#" class="btn btn-hero">Lihat Menu</a>
+                    <a href="#product" class="btn btn-hero">Lihat Menu</a>
                 </div>
             </div>
             <div class="carousel-slide"
@@ -42,7 +42,7 @@
                     <h2>Hidangan Penutup Istimewa</h2>
                     <p>Manjakan diri Anda dengan berbagai pilihan dessert lezat yang dibuat dengan cinta oleh chef
                         berpengalaman kami.</p>
-                    <a href="#" class="btn btn-hero">Coba Sekarang</a>
+                    <a href="#product" class="btn btn-hero">Coba Sekarang</a>
                 </div>
             </div>
         </div>
@@ -96,7 +96,7 @@
     </section>
 
     <!-- Products Section -->
-    <section class="product-section">
+    <section class="product-section" id="product">
         <div class="container">
             <div class="section-title">
                 <h2>Produk Kami</h2>
@@ -106,7 +106,7 @@
                 @forelse ($products as $product)
                     <!-- Sample Product Card -->
                     <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="product-card">
+                        <div class="product-card mb-5 m">
                             <div class="product-image">
                                 <img src="{{ asset($product->gambar) }}" alt="Healthy Bowl">
                                 <span class="product-category">{{ $product->name }}</span>
@@ -114,19 +114,18 @@
                             <div class="product-details">
                                 <h5 class="product-title">{{ $product->nama_product }}</h5>
                                 <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                                    @for ($i = 0; $i < 5; $i++)
+                                        <i class="fas fa-star"></i>
+                                    @endfor
                                 </div>
                                 <div class="product-price">
-                                    <span class="current-price">{{ $product->harga }}</span>
+                                    <span class="current-price">Rp{{ number_format($product->harga, 0, ',', '.') }}</span>
                                     <span class="old-price">Rp60.000</span>
                                 </div>
                                 <div class="product-buttons">
                                     <a href="{{ route('products.detail', $product->id) }}" class="btn btn-detail">Detail</a>
-                                    <button class="btn btn-cart">
+                                    <button class="btn btn-cart add-to-cart" data-id="{{ $product->id }}"
+                                        data-price="{{ $product->harga }}">
                                         <i class="fas fa-shopping-cart"></i>
                                     </button>
                                 </div>
@@ -171,6 +170,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         $(document).ready(function() {
+
+            // add to card
+            $('.add-to-cart').on('click', function() {
+                let productId = $(this).data('id');
+                let price = $(this).data('price');
+                let qty = 1;
+
+                $.ajax({
+                    url: "{{ route('cart.add') }}",
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: productId,
+                        price: price,
+                        qty: qty
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: 'Produk ditambahkan ke keranjang.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        updateCartCount();
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops!',
+                            text: 'Gagal menambahkan produk. Silakan login terlebih dahulu.',
+                        });
+                    }
+                });
+            });
+
+            function updateCartCount() {
+                $.ajax({
+                    url: "{{ route('cart.count') }}",
+                    method: "GET",
+                    success: function(response) {
+                        const count = response.count;
+                        let badge = $('.cart-badge');
+
+                        if (count > 0) {
+                            if (badge.length) {
+                                badge.text(count);
+                            } else {
+                                $('.cart-icon').append(
+                                    `<span class="cart-badge position-absolute badge rounded-pill bg-danger">${count}</span>`
+                                );
+                            }
+                        } else {
+                            badge.remove();
+                        }
+                    }
+                });
+            }
+
             var heroCarousel = $(".hero-carousel");
 
             heroCarousel.owlCarousel({
@@ -179,7 +238,7 @@
                 nav: false,
                 dots: true,
                 autoplay: true,
-                autoplayTimeout: 3000,
+                autoplayTimeout: 5000,
                 autoplayHoverPause: true,
                 smartSpeed: 1000,
                 animateOut: 'fadeOut'
@@ -193,6 +252,8 @@
             $(".custom-prev-btn").click(function() {
                 heroCarousel.trigger('prev.owl.carousel');
             });
+
+
         });
     </script>
 @endsection
