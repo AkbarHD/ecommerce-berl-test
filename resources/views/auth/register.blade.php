@@ -192,14 +192,14 @@
                                     </div>
                                 </div>
 
-                                <div class="form-check mt-3">
+                                {{-- <div class="form-check mt-3">
                                     <input class="form-check-input" type="checkbox" id="terms" name="terms"
                                         required>
                                     <label class="form-check-label" for="terms">
                                         I agree to the <a href="#" class="text-decoration-none">Terms &
                                             Conditions</a>
                                     </label>
-                                </div>
+                                </div> --}}
 
                                 <div class="d-grid gap-2 mt-4">
                                     <button type="submit" class="btn btn-lg register-btn">

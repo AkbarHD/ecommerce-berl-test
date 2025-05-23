@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout',  'LoginController@logout')->name('logout');
     Route::get('/admin/homeadmin',  'HomeController@homeadmin')->name('homeadmin');
 
+    Route::get('/profile', 'HomeController@profile')->name('profile');
+    Route::get('/profile/update', 'HomeController@profile')->name('profile.update');
+
     // category
     Route::prefix('category')->group(function () {
         Route::get('/', 'CategoryController@index')->name('category.index');

@@ -21,9 +21,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('products') }}">Produk</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('transaksi') }}">Transaksi</a>
-                </li>
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('transaksi') }}">Transaksi</a>
+                    </li>
+                @endauth
             </ul>
 
             <!-- Conditional Login/User Info -->
@@ -48,14 +50,19 @@
                                     <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
                                 </a>
                             @else
-                                <a class="dropdown-item" href="javascript:void(0);">
+                                <a class="dropdown-item" href="{{ route('profile') }}">
                                     <i class="fas fa-tachometer-alt mr-2"></i>Profile
                                 </a>
                             @endif
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
+                            {{-- <a class="dropdown-item" href="{{ route('logout') }}">
                                 <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                            </a>
+                            </a> --}}
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item"> <i class="fas fa-sign-out-alt mr-2"></i> Log
+                                    out</button>
+                            </form>
                         </div>
                     </div>
 

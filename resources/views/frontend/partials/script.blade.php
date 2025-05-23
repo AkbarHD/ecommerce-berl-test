@@ -5,8 +5,6 @@
  {{-- sweetalert --}}
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.js"></script>
 
-
-
  <script>
      @if (Session::has('success'))
          Swal.fire({
